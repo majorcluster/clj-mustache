@@ -380,7 +380,9 @@
        (map (fn [[_ _ v]]
                  (when (re-matches #"^[\^#a-zA-Z0-9-]+$|^[\^#a-zA-Z0-9-]+[\.\/][\^#a-zA-Z0-9-]+$" v)
                    (str/replace v #"^[\^#]" ""))))
-       (filter #(not (nil? %)))))
+       (filter #(not (nil? %)))
+       set
+       (into '())))
 
 (defn render-resource
   "Renders a resource located on the classpath"
