@@ -79,7 +79,9 @@
   (is (= "Hello, Felix that is the condition:true!" (render "Hello, {{#condition}}Felix that is the condition:{{condition}}!{{/condition}}"
                                 {:condition true})))
   (is (= "Hello, Felix that is the condition:true!" (render "Hello, {{#attr/condition}}Felix that is the condition:{{attr/condition}}!{{/attr/condition}}"
-                                                            {:attr/condition true}))))
+                                                            {:attr/condition true})))
+  (is (= "Hello, Ooops" (render "Hello, {{#attr/condition}}Felix that is the condition:{{attr/condition}}!{{/attr/condition}}{{^attr/condition}}Ooops{{/attr/condition}}"
+                                                            {:attr/condition false}))))
 
 (deftest test-render-boolean-false
   (is (= "Hello, " (render "Hello, {{#condition}}Felix{{/condition}}"
