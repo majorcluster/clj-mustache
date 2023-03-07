@@ -5,7 +5,7 @@ clj-mustache
 
 Compliant with the [Mustache spec](http://github.com/mustache/spec).
 
-[Clojars link](https://clojars.org/org.clojars.majorcluster/clj-mustache)
+[![Clojars Project](https://img.shields.io/clojars/v/org.clojars.majorcluster/clj-mustache.svg)](https://clojars.org/org.clojars.majorcluster/clj-mustache)
 
 Usage
 -----
