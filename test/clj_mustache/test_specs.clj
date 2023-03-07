@@ -1,6 +1,6 @@
-(ns clostache.test-specs
+(ns clj-mustache.test-specs
   (:use clojure.test
-        clostache.parser)
+        clj-mustache.parser)
   (:require [clojure.data.json :as json]))
 
 (defn- load-spec-tests [spec]

@@ -1,4 +1,4 @@
-Clostache
+clj-mustache
 =========
 
 [{{ mustache }}](http://mustache.github.com) for Clojure.
@@ -6,30 +6,30 @@ Clostache
 Compliant with the [Mustache spec](http://github.com/mustache/spec)
 since version 1.0. Supporting lambdas since version 1.1.
 
-Works with Clojure 1.5 since version 1.5. If you want to use Clostache in
+Works with Clojure 1.5 since version 1.5. If you want to use clj-mustache in
 Clojure 1.3 or 1.4 projects, use version 1.4. In Clojure 1.2 projects, use
 version 1.1.
 
-[![Build Status](https://secure.travis-ci.org/fhd/clostache.png?branch=master)](http://travis-ci.org/fhd/clostache)
+[![Build Status](https://secure.travis-ci.org/fhd/clj-mustache.png?branch=master)](http://travis-ci.org/fhd/clj-mustache)
 
 Usage
 -----
 
-The easiest way to use Clostache in your project is via
-[Clojars](http://clojars.org/de.ubercode.clostache/clostache).
+The easiest way to use clj-mustache in your project is via
+[Clojars](http://clojars.org/de.ubercode.clj-mustache/clj-mustache).
 
 Leiningen:
 
 ```clj
-[de.ubercode.clostache/clostache "1.4.0"]
+[de.ubercode.clj-mustache/clj-mustache "1.4.0"]
 ```
 
 Maven:
 
 ```xml
 <dependency>
-  <groupId>de.ubercode.clostache</groupId>
-  <artifactId>clostache</artifactId>
+  <groupId>de.ubercode.clj-mustache</groupId>
+  <artifactId>clj-mustache</artifactId>
   <version>1.4.0</version>
 </dependency>
 ```
@@ -37,20 +37,20 @@ Maven:
 To install it via [cljr](https://github.com/liebke/cljr), run:
 
 ```
-cljr install de.ubercode.clostache/clostache
+cljr install de.ubercode.clj-mustache/clj-mustache
 ```
 
-This is how you use Clostache:
+This is how you use clj-mustache:
 
 ```clj
-(use 'clostache.parser)
+(use 'clj-mustache.parser)
 (render "Hello, {{name}}!" {:name "Felix"})
 ```
 
 You can render a resource from the classpath like this:
 
 ```clj
-(use 'clostache.parser)
+(use 'clj-mustache.parser)
 (render-resource "templates/hello.mustache" {:name "Michael"})
 ```
 

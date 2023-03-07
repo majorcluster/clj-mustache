@@ -30,7 +30,7 @@
 
 1.0.0 (2012-01-28)
 ==================
-* Made Clostache compliant with the Mustache spec.
+* Made clj-mustache compliant with the Mustache spec.
 * Added support for dotted variable names.
 * Added support for implicit iterators.
 * Added support for partials.
@@ -43,7 +43,7 @@
 
 0.5.0 (2011-09-28)
 ==================
-* Changed the Maven groupId to de.ubercode.clostache.
+* Changed the Maven groupId to de.ubercode.clj-mustache.
 * Added support for single value sections.
 * Added support for sequences as lists.
 
@@ -58,7 +58,7 @@
 
 0.3.0 (2010-10-24)
 ==================
-* Changed base namespace to `clostache`.
+* Changed base namespace to `clj-mustache`.
 
 0.2.0 (2010-10-20)
 ==================

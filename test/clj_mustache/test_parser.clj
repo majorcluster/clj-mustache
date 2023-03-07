@@ -1,6 +1,8 @@
-(ns clostache.test-parser
-  (:use clojure.test
-        clostache.parser))
+(ns clj-mustache.test-parser
+  (:require [clj-mustache.parser :refer [render
+                                         render-resource
+                                         extract-mustache-variables]])
+  (:use clojure.test))
 
 (deftest test-render-simple
   (is (= "Hello, Felix" (render "Hello, {{name}}" {:name "Felix"}))))
@@ -148,3 +150,15 @@
   (is (= (render "{{ a }}" {:a "value"}) "value"))
   (is (= (render "{{a.b}}" {:a {:b "value"}}) "value"))
   (is (= (render "{{ a.b }}" {:a {:b "value"}}) "value")))
+
+(deftest test-extract-mustache-variables
+  (is (= '("names")
+         (extract-mustache-variables "{{#names}}\n    <li>{{.}}</li>\n{{/names}}")))
+  (is (= '()
+         (extract-mustache-variables "<h2>Felix' section<h2>\n{{! Look ma, I've written a section }}")))
+  (is (= '("ignore")
+         (extract-mustache-variables "{{^ignore}}Hello, World!{{/ignore}}")))
+  (is (= '("people" "name")
+         (extract-mustache-variables "<ul>\n{{#people}}\n    <li>{{name}}</li>\n{{/people}}\n</ul>")))
+  (is (= '()
+         (extract-mustache-variables "Hello {{.}}"))))
