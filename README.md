@@ -3,41 +3,17 @@ clj-mustache
 
 [{{ mustache }}](http://mustache.github.com) for Clojure.
 
-Compliant with the [Mustache spec](http://github.com/mustache/spec)
-since version 1.0. Supporting lambdas since version 1.1.
+Compliant with the [Mustache spec](http://github.com/mustache/spec).
 
-Works with Clojure 1.5 since version 1.5. If you want to use clj-mustache in
-Clojure 1.3 or 1.4 projects, use version 1.4. In Clojure 1.2 projects, use
-version 1.1.
-
-[![Build Status](https://secure.travis-ci.org/fhd/clj-mustache.png?branch=master)](http://travis-ci.org/fhd/clj-mustache)
+[Clojars link](https://clojars.org/org.clojars.majorcluster/clj-mustache)
 
 Usage
 -----
 
-The easiest way to use clj-mustache in your project is via
-[Clojars](http://clojars.org/de.ubercode.clj-mustache/clj-mustache).
-
 Leiningen:
 
 ```clj
-[de.ubercode.clj-mustache/clj-mustache "1.4.0"]
-```
-
-Maven:
-
-```xml
-<dependency>
-  <groupId>de.ubercode.clj-mustache</groupId>
-  <artifactId>clj-mustache</artifactId>
-  <version>1.4.0</version>
-</dependency>
-```
-
-To install it via [cljr](https://github.com/liebke/cljr), run:
-
-```
-cljr install de.ubercode.clj-mustache/clj-mustache
+[org.clojars.majorcluster/clj-mustache "LAST RELEASE NUMBER"]
 ```
 
 This is how you use clj-mustache:
@@ -52,6 +28,13 @@ You can render a resource from the classpath like this:
 ```clj
 (use 'clj-mustache.parser)
 (render-resource "templates/hello.mustache" {:name "Michael"})
+```
+
+You can extract mustache variables like this:
+
+```clj
+(use 'clj-mustache.parser)
+(extract-mustache-variables "<ul>\n{{#people}}\n    <li>{{name}}</li>\n{{/people}}\n</ul>")
 ```
 
 Each function supports an optional third argument, containing partials (see below).
@@ -379,10 +362,6 @@ Hello FELIX
 Development
 -----------
 
-Make sure you have
-[Leiningen 2](https://github.com/technomancy/leiningen/wiki/Upgrading)
-installed.
-
 To run the spec tests, fetch them like this:
 
 ```
@@ -398,8 +377,6 @@ lein all test
 License
 -------
 
-Copyright (C) 2014 Felix H. Dahlke
-
 This library is free software; you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as
 published by the Free Software Foundation; either version 2.1 of the
@@ -414,18 +391,3 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; see the file COPYING. If not, write
 to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
 Floor, Boston, MA 02110-1301 USA
-
-Contributors
-------------
-
-* [Rory Geoghegan](https://github.com/rgeoghegan)
-* [Santtu Lintervo](https://github.com/santervo)
-* [Pierre-Alexandre St-Jean](https://github.com/pastjean)
-* [Michael Klishin](https://github.com/michaelklishin)
-* [Stan Rozenraukh](https://github.com/stanistan)
-* [Tero Parviainen](https://github.com/teropa)
-* [Masashi Iizuka](https://github.com/liquidz)
-* [Julian Birch](https://github.com/JulianBirch)
-* [Ryan Cole](https://github.com/ryancole)
-* [Simon Lawrence](https://github.com/simonl2002)
-* [Darrell Hamilton](https://github.com/zeroem)
