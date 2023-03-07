@@ -1,4 +1,4 @@
-(defproject clj-mustache "0.0.1-SNAPSHOT"
+(defproject org.clojars.majorcluster/clj-mustache "0.0.1"
   :min-lein-version "2.0.0"
   :description "{{ mustache }} for Clojure"
   :url "http://github.com/mtsbarbosa/clj-mustache"
