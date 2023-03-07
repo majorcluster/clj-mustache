@@ -12,3 +12,4 @@ checkouts/*
 *.iml
 /.nrepl-port
 .idea
+pom.xml.asc

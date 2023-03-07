@@ -378,7 +378,7 @@
   (->> template
        (re-seq #"\{\{(\{|\&|\>|)\s*(.*?)\s*\}{2,3}")
        (map (fn [[_ _ v]]
-                 (when (re-matches #"^[\^#a-zA-Z0-9]+$|^[\^#a-zA-Z0-9]+\.[\^#a-zA-Z0-9]+$" v)
+                 (when (re-matches #"^[\^#a-zA-Z0-9-]+$|^[\^#a-zA-Z0-9-]+[\.\/][\^#a-zA-Z0-9-]+$" v)
                    (str/replace v #"^[\^#]" ""))))
        (filter #(not (nil? %)))))
 

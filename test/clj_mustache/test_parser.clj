@@ -161,4 +161,6 @@
   (is (= '("people" "name")
          (extract-mustache-variables "<ul>\n{{#people}}\n    <li>{{name}}</li>\n{{/people}}\n</ul>")))
   (is (= '()
-         (extract-mustache-variables "Hello {{.}}"))))
+         (extract-mustache-variables "Hello {{.}}")))
+  (is (= '("person/first-name")
+         (extract-mustache-variables "Hello {{person/first-name}}"))))
