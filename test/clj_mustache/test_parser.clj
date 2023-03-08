@@ -80,8 +80,13 @@
                                 {:condition true})))
   (is (= "Hello, Felix that is the condition:true!" (render "Hello, {{#attr/condition}}Felix that is the condition:{{attr/condition}}!{{/attr/condition}}"
                                                             {:attr/condition true})))
-  (is (= "Hello, Ooops" (render "Hello, {{#attr/condition}}Felix that is the condition:{{attr/condition}}!{{/attr/condition}}{{^attr/condition}}Ooops{{/attr/condition}}"
-                                                            {:attr/condition false}))))
+  (is (= "Hello 2, Tom that is the condition:true!" (render "Hello 2, {{#attr/condition-b}}Tom that is the condition:{{attr/condition-b}}!{{/attr/condition-b}}{{^attr/condition-b}}Ooops{{/attr/condition-b}}"
+                                {:attr/condition-b true})))
+  (is (= "Hello, Felix that is the condition:test!" (render "Hello, {{#attr/condition-a}}Felix that is the condition:{{attr/condition-a}}!{{/attr/condition-a}}{{^attr/condition-a}}Ooops{{/attr/condition-a}}"
+                                {:attr/condition-a "test"})))
+  (is (= "Hello Fulano"
+         (clj-mustache.parser/render "{{#customer/preferred-name}}Hello {{customer/preferred-name}}{{/customer/preferred-name}}{{^customer/preferred-name}}Hello customer{{/customer/preferred-name}}"
+                                     {:customer/preferred-name "Fulano", :account/current-interest-rate 43, :account/general-late-fee-fixed 110, :account/general-late-fee-monthly 3}))))
 
 (deftest test-render-boolean-false
   (is (= "Hello, " (render "Hello, {{#condition}}Felix{{/condition}}"
