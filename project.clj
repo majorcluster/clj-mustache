@@ -1,7 +1,7 @@
-(defproject org.clojars.majorcluster/clj-mustache "0.1.2"
+(defproject org.clojars.majorcluster/clj-mustache "0.1.3"
   :min-lein-version "2.0.0"
   :description "{{ mustache }} for Clojure"
-  :url "http://github.com/mtsbarbosa/clj-mustache"
+  :url "http://github.com/majorcluster/clj-mustache"
   :license {:name "GNU Lesser General Public License 2.1"
             :url "http://www.gnu.org/licenses/lgpl-2.1.txt"
             :distribution :repo}
