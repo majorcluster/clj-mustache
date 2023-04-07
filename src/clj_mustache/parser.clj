@@ -1,17 +1,17 @@
 (ns clj-mustache.parser
   "A parser for mustache templates."
-  (:use [clojure.string :only (split)])
   (:refer-clojure :exclude (seqable?))
-  (:require [clojure.java.io :as io]
-            [clojure.string  :as str])
-  (:import java.util.regex.Matcher))
+  (:require
+   [clojure.java.io :as io]
+   [clojure.string  :as str])
+  (:import
+   java.util.regex.Matcher))
 
-(defn- ^String map-str
+(defn- map-str
   "Apply f to each element of coll, concatenate all results into a
   String."
   [f coll]
   (apply str (map f coll)))
-
 
 (defrecord Section [name body start end inverted])
 
@@ -72,18 +72,18 @@
             custom-delim (not (= "\\{\\{" @open-delim))
             matcher (re-matcher
                      (re-pattern (str "(" @open-delim ".*?" @close-delim
-                                      (if custom-delim
+                                      (when custom-delim
                                         (str "|\\{\\{.*?\\}\\}"))
                                       ")"))
                      string)]
-        (if (.find matcher offset)
+        (when (.find matcher offset)
           (let [match-result (.toMatchResult matcher)
                 match-start (.start match-result)
                 match-end (.end match-result)
                 match (.substring string match-start match-end)]
             (if (and custom-delim
                      (= "{{" (.substring string match-start (+ match-start 2))))
-              (if-let [tag (re-find #"\{\{(.*?)\}\}" match)]
+              (when-let [tag (re-find #"\{\{(.*?)\}\}" match)]
                 (do
                   (.replace builder match-start match-end
                             (str "\\{\\{" (second tag) "\\}\\}"))
@@ -97,21 +97,21 @@
                   (apply set-delims (rest delim-change))
                   (.delete builder match-start match-end)
                   (recur match-start))
-                (if-let [tag (re-find
-                              (re-pattern (str @open-delim "(.*?)"
-                                               @close-delim))
-                              match)]
+                (when-let [tag (re-find
+                                (re-pattern (str @open-delim "(.*?)"
+                                                 @close-delim))
+                                match)]
                   (let [section-start (re-find (re-pattern
                                                 (str "^"
                                                      @open-delim
                                                      "\\s*#\\s*(.*?)\\s*"
                                                      @close-delim))
                                                (first tag))
-                        key (if section-start (keyword (second section-start)))
-                        value (if key (key @data))]
-                    (if (and value (fn? value)
-                             (not (and (= @open-delim "\\{\\{")
-                                       (= @close-delim "\\}\\}"))))
+                        key (when section-start (keyword (second section-start)))
+                        value (when key (key @data))]
+                    (when (and value (fn? value)
+                               (not (and (= @open-delim "\\{\\{")
+                                         (= @close-delim "\\}\\}"))))
                       (swap! data
                              #(update-in % [key]
                                          (fn [old]
@@ -155,15 +155,15 @@
 (defn- next-index
   "Return the next index of the supplied regex."
   ([section regex]
-     (next-index section regex 0))
+   (next-index section regex 0))
   ([^String section regex index]
-     (if (= index -1)
-       -1
-       (let [s (.substring section index)
-             matcher (re-matcher regex s)]
-         (if (nil? (re-find matcher))
-           -1
-           (+ index (.start (.toMatchResult matcher))))))))
+   (if (= index -1)
+     -1
+     (let [s (.substring section index)
+           matcher (re-matcher regex s)]
+       (if (nil? (re-find matcher))
+         -1
+         (+ index (.start (.toMatchResult matcher))))))))
 
 (defn- find-section-start-tag
   "Find the next section start tag, starting to search at index."
@@ -257,11 +257,11 @@
         section-end-tag (= tag-type \/)
         builder (StringBuilder.)
         tail-builder (if section-tag nil (StringBuilder.))
-        elements (split tag #"\.")
-        element-to-invert (if (= tag-type \^)
+        elements (str/split tag #"\.")
+        element-to-invert (when (= tag-type \^)
                             (loop [path [(first elements)]
                                    remaining-elements (rest elements)]
-                              (if (not (empty? remaining-elements))
+                              (when (seq remaining-elements)
                                 (if (nil? (path-data path data))
                                   (last path)
                                   (recur (conj path (first remaining-elements))
@@ -275,10 +275,10 @@
                                            (if (= element element-to-invert)
                                              "^" "#"))
                                   element "}}"))
-            (if (not (nil? tail-builder))
+            (when (not (nil? tail-builder))
               (.insert tail-builder 0 (str "{{/" element "}}"))))
           (.append builder (str open-delim (last elements) close-delim))
-          (str (.toString builder) (if (not (nil? tail-builder))
+          (str (.toString builder) (when (not (nil? tail-builder))
                                      (.toString tail-builder))))))))
 
 (defn- convert-paths
@@ -327,10 +327,10 @@
   [section data partials]
   (let [section-data ((keyword (:name section)) data)]
     (if (:inverted section)
-      (if (or (and (clojure.core/seqable? section-data) (empty? section-data))
-              (not section-data))
+      (when (or (and (clojure.core/seqable? section-data) (empty? section-data))
+                (not section-data))
         (:body section))
-      (if section-data
+      (when section-data
         (if (fn? section-data)
           (let [result (section-data (:body section))]
             (if (fn? result)
@@ -365,13 +365,13 @@
 (defn render
   "Renders the template with the data and, if supplied, partials."
   ([template]
-     (render template {} {}))
+   (render template {} {}))
   ([template data]
-     (render template data {}))
+   (render template data {}))
   ([template data partials]
-     (replace-all (render-template template data partials)
-                  [["\\\\\\{\\\\\\{" "{{"]
-                   ["\\\\\\}\\\\\\}" "}}"]])))
+   (replace-all (render-template template data partials)
+                [["\\\\\\{\\\\\\{" "{{"]
+                 ["\\\\\\}\\\\\\}" "}}"]])))
 
 (defn extract-mustache-variables
   "Extract mustache variables in order to build data map out of them"
@@ -379,8 +379,8 @@
   (->> template
        (re-seq #"\{\{(\{|\&|\>|)\s*(.*?)\s*\}{2,3}")
        (map (fn [[_ _ v]]
-                 (when (re-matches #"^[\^#a-zA-Z0-9-]+$|^[\^#a-zA-Z0-9-]+[\.\/][\^#a-zA-Z0-9-]+$" v)
-                   (str/replace v #"^[\^#]" ""))))
+              (when (re-matches #"^[\^#a-zA-Z0-9-]+$|^[\^#a-zA-Z0-9-]+[\.\/][\^#a-zA-Z0-9-]+$" v)
+                (str/replace v #"^[\^#]" ""))))
        (filter #(not (nil? %)))
        set
        (into '())))
@@ -388,8 +388,8 @@
 (defn render-resource
   "Renders a resource located on the classpath"
   ([^String path]
-     (render (slurp (io/resource path)) {}))
+   (render (slurp (io/resource path)) {}))
   ([^String path data]
-     (render (slurp (io/resource path)) data))
+   (render (slurp (io/resource path)) data))
   ([^String path data partials]
-     (render (slurp (io/resource path)) data partials)))
+   (render (slurp (io/resource path)) data partials)))

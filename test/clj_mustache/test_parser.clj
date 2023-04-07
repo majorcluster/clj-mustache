@@ -1,7 +1,8 @@
 (ns clj-mustache.test-parser
-  (:require [clj-mustache.parser :refer [render
-                                         render-resource
-                                         extract-mustache-variables]])
+  (:require
+   [clj-mustache.parser :refer [extract-mustache-variables render
+                                render-resource]]
+   [clojure.string :as str])
   (:use clojure.test))
 
 (deftest test-render-simple
@@ -61,7 +62,6 @@
 (deftest test-render-empty-list
   (is (= "" (render "{{#things}}Something{{/things}}" {:things []}))))
 
-
 (deftest test-render-nested-list
   (is (= "z" (render "{{#x}}{{#y}}{{z}}{{/y}}{{/x}}" {:x {:y {:z "z"}}}))))
 
@@ -77,13 +77,13 @@
   (is (= "Hello, Felix" (render "Hello, {{#condition}}Felix{{/condition}}"
                                 {:condition true})))
   (is (= "Hello, Felix that is the condition:true!" (render "Hello, {{#condition}}Felix that is the condition:{{condition}}!{{/condition}}"
-                                {:condition true})))
+                                                            {:condition true})))
   (is (= "Hello, Felix that is the condition:true!" (render "Hello, {{#attr/condition}}Felix that is the condition:{{attr/condition}}!{{/attr/condition}}"
                                                             {:attr/condition true})))
   (is (= "Hello 2, Tom that is the condition:true!" (render "Hello 2, {{#attr/condition-b}}Tom that is the condition:{{attr/condition-b}}!{{/attr/condition-b}}{{^attr/condition-b}}Ooops{{/attr/condition-b}}"
-                                {:attr/condition-b true})))
+                                                            {:attr/condition-b true})))
   (is (= "Hello, Felix that is the condition:test!" (render "Hello, {{#attr/condition-a}}Felix that is the condition:{{attr/condition-a}}!{{/attr/condition-a}}{{^attr/condition-a}}Ooops{{/attr/condition-a}}"
-                                {:attr/condition-a "test"})))
+                                                            {:attr/condition-a "test"})))
   (is (= "Hello Fulano"
          (clj-mustache.parser/render "{{#customer/preferred-name}}Hello {{customer/preferred-name}}{{/customer/preferred-name}}{{^customer/preferred-name}}Hello customer{{/customer/preferred-name}}"
                                      {:customer/preferred-name "Fulano", :account/current-interest-rate 43, :account/general-late-fee-fixed 110, :account/general-late-fee-monthly 3}))))
@@ -129,8 +129,8 @@
                                 {:greet #(str "Hello, " %)})))
   (is (= "Hi TOM Hi BOB "
          (render "{{#people}}Hi {{#upper}}{{name}}{{/upper}} {{/people}}"
-                 {:people [{:name "Tom"}, {:name "Bob"}] 
-                  :upper (fn [text] (fn [render-fn] (clojure.string/upper-case (render-fn text))))}))))
+                 {:people [{:name "Tom"}, {:name "Bob"}]
+                  :upper (fn [text] (fn [render-fn] (str/upper-case (render-fn text))))}))))
 
 (deftest test-render-resource-template
   (is (= "Hello, Felix" (render-resource "templates/hello.mustache" {:name "Felix"}))))
@@ -140,11 +140,11 @@
 
 (deftest test-render-partial-recursive
   (is (= "One Two Three Four Five" (render "One {{>two}}"
-                                            {}
-                                            {:two "Two {{>three}}"
-                                             :three "Three {{>four}}"
-                                             :four "Four {{>five}}"
-                                             :five "Five"}))))
+                                           {}
+                                           {:two "Two {{>three}}"
+                                            :three "Three {{>four}}"
+                                            :four "Four {{>five}}"
+                                            :five "Five"}))))
 
 (deftest test-render-with-variable-containing-template
   (is (= "{{hello}},world" (render "{{tmpl}},{{hello}}" {:tmpl "{{hello}}" :hello "world"}))))

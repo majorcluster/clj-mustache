@@ -13,3 +13,8 @@ checkouts/*
 /.nrepl-port
 .idea
 pom.xml.asc
+
+.DS_Store
+
+/.lsp/.cache
+/.clj-kondo/.cache

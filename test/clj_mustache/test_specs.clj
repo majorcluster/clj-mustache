@@ -1,7 +1,8 @@
 (ns clj-mustache.test-specs
-  (:use clojure.test
-        clj-mustache.parser)
-  (:require [clojure.data.json :as json]))
+  (:require
+   [clj-mustache.parser :refer [render]]
+   [clojure.data.json :as json]
+   [clojure.test :refer [deftest is]]))
 
 (defn- load-spec-tests [spec]
   (let [path (-> (Thread/currentThread)
@@ -33,7 +34,7 @@
            (render template data partials))
         (str (:name spec-test) " - " (:desc spec-test) "\nTemplate: \""
              (flatten-string template) "\"\nData: " readable-data
-             (if partials (str "\nPartials: " partials))))))
+             (when partials (str "\nPartials: " partials))))))
 
 (defn run-spec-tests [spec]
   (doseq [spec-test (load-spec-tests spec)]
